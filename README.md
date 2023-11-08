@@ -33,12 +33,12 @@
   </tr>
    <tr>
     <td align="center"><a href="https://github.com/Philip-sung"><img src="https://avatars.githubusercontent.com/Philip-sung" width="130px;" alt=""></a></td>
-    <td align="center"><a href="https://github.com/12L-zl"><img src="https://avatars.githubusercontent.com/12L-zl" width="130px;" alt=""></a></td>
+    <td align="center"><a href="https://github.com/iam1004yang"><img src="https://avatars.githubusercontent.com/iam1004yang" width="130px;" alt=""></a></td>
     <td align="center"><a href="https://github.com/12L-zl"><img src="https://avatars.githubusercontent.com/12L-zl" width="130px;" alt=""></a></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/Philip-sung"><b>Philip-sung</b></a></td>
-    <td align="center"><a href="https://github.com/12L-zl"><b>12L-zl</b></a></td>
+    <td align="center"><a href="https://github.com/iam1004yang"><b>iam1004yang</b></a></td>
     <td align="center"><a href="https://github.com/12L-zl"><b>12L-zl</b></a></td>
   </tr>
 </table>
