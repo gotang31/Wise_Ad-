@@ -1,9 +1,10 @@
 from libs.COUPANG.getUrl import *
 from libs.COUPANG.getInfo import *
 from libs.COUPANG.createDF import *
-
+from libs.COUPANG.importCategories import *
 
 def main():
+    categories_list = excel_to_list()
     text = getres(init_url)
     page = get_total_page(text)
     url_list = get_url_list(page)
