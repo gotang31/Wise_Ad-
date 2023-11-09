@@ -50,3 +50,4 @@ def create_imgframes(fdir, df):
                     count += 1
 
         video.release()
+    print("작업 완료! 종료 버튼을 눌러주세요")
