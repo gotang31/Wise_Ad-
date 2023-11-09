@@ -1,6 +1,7 @@
 import cv2
 import os
 import re
+import numpy as np
 
 
 def clean_filename(title):
@@ -19,25 +20,33 @@ def create_imgframes(fdir, df):
 
         if not video.isOpened():
             print(name, " 영상을 로드할 수 없음")
-            exit(0)
+            continue  # exit(0) 대신 continue 사용
 
-        filepath = f'{fdir}/{title}'
+        filepath = f'{fdir}/{cleaned_title}'  # 여기서 cleaned_title을 사용
         fps = video.get(cv2.CAP_PROP_FPS)
 
         try:
-            if not os.path.exists(filepath[:4]):
-                os.makedirs(filepath[:4])
-                print(filepath[:4] + " 폴더 생성 완료")
-        except:
-            print(filepath[:4] + " 폴더를 만들 수 없음")
+            if not os.path.exists(filepath):
+                os.makedirs(filepath)
+                print(filepath + " 폴더 생성 완료")
+        except OSError as error:
+            print(error)
+            print(filepath + " 폴더를 만들 수 없음")
+            continue  # 폴더 생성에 실패하면 다음 반복으로 넘어감
 
         count = 0
 
-        while (video.isOpened()):
+        while video.isOpened():
             ret, image = video.read()
-            if (int(video.get(1)) % fps == 0):  # 앞서 불러온 fps 값을 사용하여 1초마다 추출
-                cv2.imwrite(filepath[:4] + "/frame%d.jpg" % count, image)
-                print('Saved frame number :', str(int(video.get(1))))
-                count += 1
+            if not ret:
+                break  # 비디오의 끝이면 종료
+            if (int(video.get(1)) % round(fps) == 0):  # 앞서 불러온 fps 값을 사용하여 1초마다 추출
+                result, encoded_image = cv2.imencode('.jpg', image)
+                if result:
+                    frame_filepath = f"{filepath}/frame{count}.jpg"
+                    with open(frame_filepath, "wb") as f:  # wb 모드로 바이너리 파일을 연다.
+                        f.write(encoded_image)
+                    print('Saved frame number :', str(int(video.get(1))))
+                    count += 1
 
         video.release()
