@@ -6,7 +6,8 @@ from libs.getVideo import *
 from libs.createFrames import *
 
 
-def main(channel, cnt, dir):
+def main():
+    channel, cnt, dir = get_user_input()
     fdir = create_data_directory(channel, dir)
     driver = configure_uc(channel)
     scroll_down_page(driver, cnt)
@@ -14,3 +15,7 @@ def main(channel, cnt, dir):
     df = create_dataframe(video_name, full_url)
     download_videos(fdir, df)
     create_imgframes(fdir,df)
+
+
+if __name__== "__main__":
+    main()
