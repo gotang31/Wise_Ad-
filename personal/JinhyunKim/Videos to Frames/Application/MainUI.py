@@ -36,13 +36,32 @@ class Ui_MainWindow(object):
         self.title_label.setFont(font)
         self.title_label.setScaledContents(True)
         self.title_label.setObjectName("title_label")
-        self.channel_input = QtWidgets.QLineEdit(self.centralwidget)
-        self.channel_input.setGeometry(QtCore.QRect(30, 150, 351, 41))
+        self.channel_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.channel_lineEdit.setGeometry(QtCore.QRect(30, 150, 341, 31))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.channel_lineEdit.setFont(font)
+        self.channel_lineEdit.setClearButtonEnabled(False)
+        self.channel_lineEdit.setObjectName("channel_lineEdit")
+        self.cnt_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.cnt_lineEdit.setGeometry(QtCore.QRect(30, 190, 341, 31))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.cnt_lineEdit.setFont(font)
+        self.cnt_lineEdit.setObjectName("cnt_lineEdit")
+        self.dir_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.dir_lineEdit.setGeometry(QtCore.QRect(30, 230, 341, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.channel_input.setFont(font)
-        self.channel_input.setText("")
-        self.channel_input.setObjectName("channel_input")
+        self.dir_lineEdit.setFont(font)
+        self.dir_lineEdit.setObjectName("dir_lineEdit")
+        self.frame_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.frame_lineEdit.setGeometry(QtCore.QRect(30, 270, 341, 31))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.frame_lineEdit.setFont(font)
+        self.frame_lineEdit.setText("")
+        self.frame_lineEdit.setObjectName("frame_lineEdit")
         self.output_textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.output_textBrowser.setGeometry(QtCore.QRect(415, 150, 371, 401))
         self.output_textBrowser.setObjectName("output_textBrowser")
@@ -72,20 +91,6 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.output_label.setFont(font)
         self.output_label.setObjectName("output_label")
-        self.count_input = QtWidgets.QLineEdit(self.centralwidget)
-        self.count_input.setGeometry(QtCore.QRect(30, 220, 351, 41))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.count_input.setFont(font)
-        self.count_input.setText("")
-        self.count_input.setObjectName("count_input")
-        self.dir_input = QtWidgets.QLineEdit(self.centralwidget)
-        self.dir_input.setGeometry(QtCore.QRect(30, 290, 351, 41))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.dir_input.setFont(font)
-        self.dir_input.setText("")
-        self.dir_input.setObjectName("dir_input")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -104,13 +109,13 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.title_label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:28pt; font-weight:600;\">Videos to Frames</span></p></body></html>"))
-        self.channel_input.setPlaceholderText(_translate("MainWindow", "크리에이터 ID를 입력하세요"))
+        self.channel_lineEdit.setPlaceholderText(_translate("MainWindow", "크리에이터 ID를 입력하세요"))
         self.start_pushButton.setText(_translate("MainWindow", "실행"))
         self.stop_pushButton.setText(_translate("MainWindow", "종료"))
         self.output_label.setText(_translate("MainWindow", "Console"))
-        self.count_input.setPlaceholderText(_translate("MainWindow", "수집할 영상 갯수를 입력하세요"))
-        self.dir_input.setPlaceholderText(_translate("MainWindow", "결과물을 저장할 경로를 입력하세요"))
-
+        self.cnt_lineEdit.setPlaceholderText(_translate("MainWindow", "수집할 영상 갯수를 입력하세요"))
+        self.dir_lineEdit.setPlaceholderText(_translate("MainWindow", "결과물을 저장할 경로를 입력하세요"))
+        self.frame_lineEdit.setPlaceholderText(_translate("MainWindow", "추출할 이미지 간격(초)"))
 
     def redirect_stdout_to_output(self):
         # Redirect stdout to EmittingStream
@@ -125,15 +130,16 @@ class Ui_MainWindow(object):
     def start_main(self):
         # GUI에서 필요한 입력값들을 가져옵니다.
         # 예를 들어, input_lineEdit에서 텍스트를 가져옵니다.
-        channel = str(self.channel_input.text())
-        cnt = int(self.count_input.text())
-        dir = str(self.dir_input.text())
+        channel = str(self.channel_lineEdit.text())
+        cnt = int(self.cnt_lineEdit.text())
+        dir = str(self.dir_lineEdit.text())
+        frame_interval = int(self.frame_lineEdit.text())
 
         # main.py의 main 함수를 새로운 스레드에서 실행합니다.
         # 필요한 경우 입력값을 main 함수에 전달할 수 있습니다.
         # threading 모듈을 사용하여 GUI가 멈추지 않고 반응하도록 합니다.
         import threading
-        thread = threading.Thread(target=main_func, args=(channel, cnt, dir))
+        thread = threading.Thread(target=main_func, args=(channel, cnt, dir,frame_interval))
         thread.start()
 
 
