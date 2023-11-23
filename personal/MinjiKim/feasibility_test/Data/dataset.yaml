@@ -1,0 +1,28 @@
+names:
+  0: Bowl
+  1: Backpack
+  2: Laptop
+  3: Oven
+  4: Toaster
+  5: Mouse
+  6: Bottle
+  7: Tennis racket
+  8: Clock
+  9: Tie
+  10: Wine glass
+  11: Spoon
+  12: Scissors
+  13: Toothbrush
+  14: Refrigerator
+  15: Couch
+  16: Chair
+  17: Umbrella
+  18: Knife
+  19: Suitcase
+  20: Sunglasses
+  21: sweatshirts
+path: "C:\\Users\\knuyh\\Desktop\\\uBBFC\uC9C0\\\uACE0\uB824\uB300\uD559\uAD50 \uAD50\
+  \uC721\\\uD504\uB85C\uC81D\uD2B8\\personal\\MinjiKim\\feasibility_test\\Data"
+test: .\images\test\
+train: .\images\train\
+val: .\images\val\
