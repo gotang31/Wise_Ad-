@@ -1,12 +1,12 @@
-from bs4 import BeautifulSoup
-from libs.COUPANG.getUrl import getres
 import pandas as pd
+from getUrl import *
 
 namelist = list()
 imglist = list()
 pricelist = list()
 ratinglist = list()
 reviewlist = list()
+linklist = list()
 
 def getinfo(string):
     soup = BeautifulSoup(string, 'html5lib')
@@ -45,10 +45,16 @@ def getinfo(string):
         except:
             reviewlist.append(pd.NA)
 
+        #url
+        a_class_baby_product_link = product.find('a',{'class':'baby-product-link'})
+        href = a_class_baby_product_link.get('href')
+        link = f'https://coupang.com'+href
+        linklist.append(link)
+
 
 
 def loop_url_getinfo(url_list):
     for urls in url_list:
         getinfo(getres(urls))
 
-    return namelist,imglist,pricelist,ratinglist,reviewlist
+    return namelist,imglist,pricelist,ratinglist,reviewlist,linklist

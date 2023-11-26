@@ -7,12 +7,13 @@ headers = {
 loginURL = 'https://login.coupang.com/login/login.pang?rtnUrl=https%3A%2F%2Fwww.coupang.com%2Fnp%2Fpost%2Flogin%3Fr%3Dhttps%253A%252F%252Fwww.coupang.com%252F'
 loginForm = {'login-email-input': 'ID', 'login-password-input': 'PW'}
 init_url = "https://www.coupang.com/np/categories/497141"  # TEST
+url = "https://www.coupang.com/np/categories/502995" #sweatshirt
 
 def getres(url):
     sess = requests.Session()
     # sess.get(loginURL, headers=headers, verify=False)
     # login_request = sess.post(loginURL, data=loginForm)
-    res = sess.get(init_url, headers=headers, verify=False)
+    res = sess.get(url, headers=headers, verify=False)
     text = res.text
 
     return text
@@ -29,7 +30,7 @@ def get_url_list(page):
     url_list=list()
 
     for i in range(page):
-        url = 'https://www.coupang.com/np/categories/497141/'+str((i+1))
+        url = 'https://www.coupang.com/np/categories/502995/?page='+str((i+1))
         url_list.append(url)
 
     return url_list
