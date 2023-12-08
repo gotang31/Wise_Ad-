@@ -45,6 +45,6 @@ def get_small_categories(big_categories):
                 if re.match('/np/categories', href):
                     small_categories.add('https://www.coupang.com' + href[:21])
                 elif re.match('/np/campaigns', href):
-                    small_categories.add('https://www.coupang.com' + href[])
+                    small_categories.add('https://www.coupang.com' + href[:21])
         except:
             pass
