@@ -160,3 +160,19 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+personal/JinhyunKim/Coupang_Crawler/sweatshirt.zip
+.idea/.gitignore
+.idea/deployment.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/Wise_Ad-.iml
+.idea/inspectionProfiles/profiles_settings.xml
+personal/JinhyunKim/Fiftyone/YOLOv8/Pretrained_Model/yolov8n.pt
+personal/JinhyunKim/Detection_Similarity_Bridge/finetuned_model/
+.vscode/settings.json
+personal/TaewookGo/
+personal/JinhyunKim/Youtube_Capture/UrltoFrames/libs/undetected_chromedriver.exe
+personal/JinhyunKim/Youtube_Capture/UrltoFrames/undetected_chromedriver.exe
+personal/JinhyunKim/Youtube_Capture/Videos to Frames/Application/undetected_chromedriver.exe
+personal/JinhyunKim/Youtube_Capture/Videos to Frames/Application/VtF.exe
