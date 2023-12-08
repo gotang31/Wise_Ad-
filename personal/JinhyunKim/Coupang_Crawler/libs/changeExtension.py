@@ -1,10 +1,10 @@
 import os
 import shutil
 
-
+#이미지 파일의 확장자를 .jpg로 통일하는 함수
 def changeextension():
     # 'sweatshirt' 폴더 경로 설정
-    root_dir = ".//data//cat//toilet"
+    root_dir = ".//data//cat//hard"
 
     # 모든 하위 폴더와 파일 탐색
     for subdir, dirs, files in os.walk(root_dir):
