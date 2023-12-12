@@ -1,6 +1,6 @@
 import random
 import pandas as pd
-from modules.create_dummydata import create_rating
+from modules.create_dummydata import create_rating, weighted_create
 from modules.importCategories import get_naver_category_code_list, naver_code_to_coupang_code
 
 
@@ -14,12 +14,14 @@ def execute_initialize_sqls(cursor, path: str):
 
 
 def initialize_db(cur):
-    sql_directory_path = 'C:/Users/Egn/Desktop/DataGenerator/sql'
+    sql_directory_path = 'C:/Users/Egn/Desktop/GitHub/KUSW/project/preprocessing/DataGenerator/sql'
     execute_initialize_sqls(cur, sql_directory_path)
 
 
 def get_random_user_from_db(cursor):
-    random_id = random.randint(0,999)
+    cursor.execute("SELECT COUNT(*) FROM userinfo;")
+    userNum = cursor.fetchone()[0]
+    random_id = random.randint(0,userNum - 1)
     cursor.execute("SELECT * FROM userinfo WHERE userid = {0}".format(random_id))
     random_user = cursor.fetchone()
 
@@ -53,15 +55,17 @@ def create_review_by_category(userid, category_id, cursor, file):
     random_idx = random.randint(0, listSize - 1)
     random_item = itemlist[random_idx]
     rating = create_rating()
-    file.write("INSERT INTO transactioninfo(userid, itemid, rating) VALUES({0},{1},{2});\n".format(userid, random_item[0], rating))
-    file.write("UPDATE iteminfo set youreco_reviews = youreco_reviews + 1 where itemid = {0};\n".format(random_item[0]))
+    # iterate n time : assume multiple purchase at onetime
+    n = weighted_create([1, 2, 3, 4, 5, 6],[0.6, 0.2, 0.1, 0.05, 0.03, 0.02])
+    for i in range(n):
+        file.write("INSERT INTO transactioninfo(userid, itemid, rating) VALUES({0},{1},{2});\n".format(userid, random_item[0], rating))
+        file.write("UPDATE iteminfo set youreco_reviews = youreco_reviews + 1 where itemid = {0};\n".format(random_item[0]))
 
     return [random_item, rating]
 
 
 def create_transaction(cur, file):
     rand_user = get_random_user_from_db(cur)
-    # print("User :", rand_user)
     rand_stat_idx = get_user_statistics_idx(rand_user)
     # print("this user group :", rand_stat_idx)
     weights = get_statistics_weights(rand_stat_idx)
@@ -91,5 +95,5 @@ def create_transaction_sql(cur, iter_num: int):
 
 
 def execute_transaction_sql(cur):
-    path = 'C:/Users/Egn/Desktop/DataGenerator/sql'
+    path = 'C:/Users/Egn/Desktop/GitHub/KUSW/project/preprocessing/DataGenerator/sql'
     cur.execute(open("{0}/insert_transaction.sql".format(path), "r", encoding='utf-8').read())

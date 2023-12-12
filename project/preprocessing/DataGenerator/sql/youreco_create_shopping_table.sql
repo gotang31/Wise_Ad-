@@ -4,6 +4,7 @@ create table userinfo
         username varchar(10),
         age smallint,
         gender varchar(10),
+        address varchar(40),
         primary key (userid)
     );
 

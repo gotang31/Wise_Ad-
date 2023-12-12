@@ -15,6 +15,10 @@ def create_phone_number():
     return p_number
 
 
+def create_address_ko():
+    addr = fake.address()
+    return addr
+
 def create_rating():
     rating = random.choices([5,4,3,2,1],[0.8, 0.1, 0.04, 0.02, 0.02])
     return rating[0]

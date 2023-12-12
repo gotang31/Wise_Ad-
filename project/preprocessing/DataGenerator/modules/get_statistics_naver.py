@@ -82,6 +82,10 @@ def item_statistics_gender(category_code):
 def get_item_distribution(category_code):
     age_ratio_list = item_statistics_age(category_code)
     gender_ratio_list = item_statistics_gender(category_code)
+    while len(age_ratio_list) < 6:
+        age_ratio_list.append(0)
+    while len(gender_ratio_list) < 6:
+        gender_ratio_list.append(0)
 
     male_10s = age_ratio_list[0] * gender_ratio_list[0]
     female_10s = age_ratio_list[0] * gender_ratio_list[1]

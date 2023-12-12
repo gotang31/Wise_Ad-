@@ -21,19 +21,19 @@ if __name__ == '__main__':
     # # import items from excel
     # insert_item_from_excel_list(cur)
     # conn.commit()
-    #
-    # # create statistics table/ if needed
-    # # create_statistics_table()
-    #
-    # # create data on database
-    # create_transaction_sql(cur, 5000)
-    # execute_transaction_sql(cur)
-    # conn.commit()
 
-    cur.execute("select userid, category, COUNT(category) from transactioninfo INNER JOIN iteminfo on transactioninfo.itemid = iteminfo.itemid group by userid, category order by userid;")
-    a = cur.fetchall()
-    df = pd.DataFrame(a)
-    df.to_excel('./aggr.xlsx')
+    # # create statistics table
+    # create_statistics_table()
+
+    # create data on database
+    create_transaction_sql(cur, 1000)
+    execute_transaction_sql(cur)
+    conn.commit()
+
+    #cur.execute("select userid, category, COUNT(category) from transactioninfo INNER JOIN iteminfo on transactioninfo.itemid = iteminfo.itemid group by userid, category order by userid;")
+    #a = cur.fetchall()
+    #df = pd.DataFrame(a)
+    #df.to_excel('./aggr.xlsx')
 
     # disconnect DB
     cur.close()

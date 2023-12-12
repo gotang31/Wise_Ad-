@@ -42,7 +42,8 @@ def category_name_to_coupang_code(name : str):
         coupang_code = str(result.iloc[0, 0])
         return coupang_code
     else:
-        return "Error"
+        coupang_code = str(result.iloc[0, 0])
+        return coupang_code
 
 
 def naver_code_to_coupang_code(code):
@@ -52,4 +53,5 @@ def naver_code_to_coupang_code(code):
         coupang_code = str(result.iloc[0, 0])
         return coupang_code
     else:
-        return "Error"
+        coupang_code = str(result.iloc[0, 0])
+        return coupang_code
