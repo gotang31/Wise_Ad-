@@ -14,4 +14,4 @@ def concat_df(df_new,df_tmp):
     return df
 
 def to_excel(df):
-    df.to_excel('/Users/jhk/PycharmProjects/COUPANG/Data/result.xlsx')
+    df.to_excel('./result.xlsx')
