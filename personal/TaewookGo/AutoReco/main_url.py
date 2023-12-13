@@ -15,7 +15,7 @@ from youreco.utils import inference
 model = Detr()
 model_1 = YouRecoSIm()
 
-if __name__ == 'main':
+if __name__ == '__main__':
     
     # front에서 input 받는 부분
     url = 'Youtube URL'
