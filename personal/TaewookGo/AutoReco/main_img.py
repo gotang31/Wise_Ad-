@@ -15,7 +15,7 @@ from youreco.utils import inference
 model = Detr()
 model_1 = YouRecoSIm()
 
-if __name__ == 'main':
+if __name__ == '__main__':
     
     # front에서 input 받는 부분: image 자체로 input 되는 것인지 혹은 image 파일이 로컬 디렉토리에 저장된 후 input 되는 것인지 결정
     # 로컬 디렉토리에 저장된 후 불러오는 것으로 코드 구현해봤습니다

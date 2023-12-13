@@ -32,6 +32,7 @@ def key_extraction(inference_list, video_time):
     # 박스 score 기준으로 내림차순 정렬
     inference_list = sorted(inference_list, key = lambda x : x[2], reverse = true)
     
+    # 코드 미완성..
     reco_num = round(video_time // 300) + 1
     key_result = list()
     for obj in inference_list:
