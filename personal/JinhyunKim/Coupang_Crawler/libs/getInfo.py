@@ -1,6 +1,8 @@
 import pandas as pd
 from getUrl import *
 
+
+# 제품 정보를 저장할 리스트들을 초기화
 namelist = list()
 imglist = list()
 pricelist = list()
@@ -8,10 +10,11 @@ ratinglist = list()
 reviewlist = list()
 linklist = list()
 
+# 웹 페이지의 HTML 문자열로부터 제품 정보를 추출하는 함수
 def getinfo(string):
     soup = BeautifulSoup(string, 'html5lib')
-    ul = soup.find('ul', {'id':'productList'})
-    li = soup.findAll('li', {'class':'baby-product renew-badge'})
+    ul = soup.find('ul', {'id':'productList'})  # 제품 목록을 포함하는 ul 태그 찾기
+    li = soup.findAll('li', {'class':'baby-product renew-badge'})   # 개별 제품 정보를 포함하는 li 태그 찾기
 
     for product in li:
         #thumbnail
@@ -29,13 +32,13 @@ def getinfo(string):
         price = strong_class_pricevalue.getText()
         pricelist.append(price)
 
-        #rating
+        #rating (별점 없는 제품도 있으므로 예외 처리)
         try:
             em_class_rating = product.find('em', {'class':'rating'})
             rating = em_class_rating.getText()
             ratinglist.append(rating)
         except:
-            ratinglist.append(pd.NA)
+            ratinglist.append(pd.NA)    # 빈 값에 대한 일괄 결측치 처리
 
         #review_cnt
         try:
@@ -51,8 +54,7 @@ def getinfo(string):
         link = f'https://coupang.com'+href
         linklist.append(link)
 
-
-
+# 한 카테고리 내의 여러 page에 대한 URL에서 제품 정보를 추출하고 리스트로 반환
 def loop_url_getinfo(url_list):
     for urls in url_list:
         getinfo(getres(urls))
