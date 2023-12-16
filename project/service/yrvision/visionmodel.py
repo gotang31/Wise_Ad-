@@ -73,7 +73,6 @@ class YouRecoSIm(SimBck):
         hook.remove()
 
         # Classification
-        res = self.model(img_trans, box)
         _, cls = torch.max(res.data, 1)
 
         return embed_feature[0], cls
