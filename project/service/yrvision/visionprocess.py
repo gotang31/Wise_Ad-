@@ -1,5 +1,5 @@
-from videopreprocess import download_videos, create_imgframes
-from utils import inference, similarity_result, subject_extraction, key_extraction
+from .videopreprocess import download_videos, create_imgframes
+from .utils import inference, similarity_result, subject_extraction, key_extraction
 import os
 import pickle
 
@@ -26,11 +26,11 @@ def input_url(model_detect, model_sim, url, fdir):
         result_list = inference(model_detect, image_dir, img)
         inference_list.extend(result_list)
     
-    # key category Extraction
+    # key category extraction
     video_subject = subject_extraction(inference_list)
-    key_result = key_extraction(inference_list, video_time)
+    key_result, split_time_list = key_extraction(inference_list, video_time)
 
-    # inference result 저장 -> 나중에 단일 이미지 input 될 때 이용하기 위해 ; 사실 이게 영상 추론 DB가 될 수도 있기에 pickle형태가 아니라 다른 형태가 있다면 알려주세요.
+    # inference result 저장 -> 나중에 단일 이미지 input 될 때 이용하기 위해 ; 사실 이게 영상 추론 DB가 될 수도 있기에 pickle 형식이 아니라 다른 좋은 형식이 있다면 알려주세요.
     inference_result = {f'{image_dir}' : inference_list}
     with open(f'./{url}.pickle' , 'wb') as fp:
         pickle.dump(inference_result, fp, protocol = pickle.HIGHEST_PROTOCOL)
@@ -38,8 +38,9 @@ def input_url(model_detect, model_sim, url, fdir):
     # similarity
     similar_itemid_list, category_list = similarity_result(model_sim, key_result, image_dir)
 
-    return similar_itemid_list, category_list, video_subject
-        
+    return similar_itemid_list, category_list, video_subject, split_time_list
+
+
 def input_img(model_sim, url, image_name):
     '''
     input_url에서 이미 inference process와 result 저장을 진행하기에, img_name(index)만 받으면 해당 추론 결과만 가져오면 된다.

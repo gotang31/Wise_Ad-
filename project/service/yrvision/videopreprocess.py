@@ -3,6 +3,7 @@ import cv2
 import os
 import re
 
+
 def clean_filename(title):
     cleaned_title = re.sub(r'[\/:*?"<>|]', '', title)
     return cleaned_title

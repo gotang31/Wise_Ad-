@@ -1,14 +1,14 @@
 import torch
 import torchvision
 from torchvision import transforms
-import numpy as np
 import faiss
 from PIL import Image
+
 
 class SimBck: # Similairty Backbone = Resnet50
     def __init__(self,
                     dir = False,
-                    model = torchvision.models.resnet50(pretrained = True),
+                    model = torchvision.models.resnet50(weights = torchvision.models.ResNet50_Weights.DEFAULT),
                     model_weights = torchvision.models.ResNet50_Weights.DEFAULT):
         '''
         dir : file directory of fine-tuned model state_dict. Default is pre-trained model
