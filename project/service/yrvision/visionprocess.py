@@ -19,7 +19,7 @@ def input_url(model_detect, model_sim, url, fdir):
     
     # Detection
     # 이미지 시간 순 리스트 : 이미지 저장할 때 0부터 시작해서 저장해야 함
-    img_list = sorted(os.ilstdir(image_dir), key = lambda x : int(x[:-4]))
+    img_list = sorted(os.listdir(image_dir), key = lambda x : int(x[:-4]))
     
     inference_list = list()
     for img in img_list:
