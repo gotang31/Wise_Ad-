@@ -3,7 +3,24 @@ import torchvision
 from torchvision import transforms
 import faiss
 from PIL import Image
+import pytorch_lightning as pl
+from transformers import DetrForObjectDetection
 
+class Detr(pl.LightningModule):
+    def __init__(self):
+        super().__init__()
+        # replace COCO classification head with custom head
+        # we specify the "no_timm" variant here to not rely on the timm library
+        # for the convolutional backbone
+        self.model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50",
+                                                            revision="no_timm",
+                                                            num_labels = 10,
+                                                            ignore_mismatched_sizes=True)
+         
+    def forward(self, pixel_values, pixel_mask): # model의 예측
+        outputs = self.model(pixel_values=pixel_values, pixel_mask=pixel_mask)
+
+        return outputs
 
 class SimBck: # Similairty Backbone = Resnet50
     def __init__(self,
@@ -57,7 +74,7 @@ class YouRecoSIm(SimBck):
     def __init__(self, dir = False):
         super(YouRecoSIm, self).__init__(dir)
         self.initiate_model()
-        self.index_DB = faiss.read_index('../Youreco_vectorDB.index') # DB 저장소
+        self.index_DB = faiss.read_index('./Youreco_vectorDB.index') # DB 저장소
 
     def feature_extractor(self,image_dir, query_img, box): # Resnet-50으로부터 feature extraction/extra classification
         query_img = Image.open(f'{image_dir}/{query_img}.jpg').convert('RGB')
@@ -79,6 +96,7 @@ class YouRecoSIm(SimBck):
 
     def retrieval_similar(self, image_dir, query_img, box):
         query_img_embedding, category = self.feature_extractor(image_dir, query_img, box)
+        category = category.item()
         
         n = 4
         while True:
@@ -93,3 +111,4 @@ class YouRecoSIm(SimBck):
                 
             else:
                 n += 1
+

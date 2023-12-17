@@ -25,7 +25,7 @@ def create_imgframes(fdir, title):
         exit()
     
     # Image folder directory path
-    filepath = f'{fdir}/{title}_capture'  
+    filepath = f'{fdir}/{title}'  
     
     fps = video.get(cv2.CAP_PROP_FPS)
 
