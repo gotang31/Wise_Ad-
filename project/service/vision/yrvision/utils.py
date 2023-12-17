@@ -103,3 +103,16 @@ def key_extraction(inference_list, video_time):
     split_time_list = list(round(interval_time) * i for i in range(1, category_num_detect))
 
     return key_result, split_time_list
+
+# 영상 추론 DB 테이블 틀은 만들어져있다고 생각
+def insert_result_from_inference(cursor, url, video_title, video_time, inference_list, split_time_list, similar_itemid_list, category_list, video_subject):
+    cursor.execute(
+            "INSERT INTO inferenceinfo(url, video_time, inference_list, split_time_list, similar_itemid_list, category_list) VALUES(\'{0}\',{1},{2},{3},{4},{5}, {6}');".format(
+                url, video_title, video_time, inference_list, split_time_list, similar_itemid_list, category_list, video_subject))
+
+def select_result_from_db(cursor, url):
+    # select 부분 수정 필요
+    cursor.execute(f"select * from inferenceinfo where 'url' = {url}")
+    row = cursor.fetchall()
+
+    return row

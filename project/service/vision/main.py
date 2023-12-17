@@ -3,6 +3,7 @@ import os
 from yrvision.visionmodel import Detr, YouRecoSIm
 from yrvision.visionprocess import input_url, input_img
 import torch
+import psycopg2 as pg
 
 app = Flask(__name__)
 
@@ -15,6 +16,9 @@ model_detect.load_state_dict(ckpt['state_dict'])
 model_detect.eval()
 
 model_sim = YouRecoSIm()
+
+conn = pg.connect(host="127.0.0.1", dbname="yourecovision", user="postgres", password="postgres", port=5432)
+cur = conn.cursor()
 
 fdir = '/practice_video'
 
@@ -33,18 +37,17 @@ def inference():
         url = str(request.data, 'utf-8')
         image_name = "extension에서 사용자가 멈출 때 시간의 문자열 넘겨줘야 함"
         fdir = './practice_video'
-        video_subject = ''
 
         # url 받을 때
         if url: 
-            similar_itemid_list, category_list, split_time_list, video_subject = input_url(model_detect, model_sim, url, fdir)
+            similar_itemid_list, category_list, split_time_list, video_subject = input_url(model_detect, model_sim, url, fdir, cur)
 
             return jsonify({'similar_itemid_list' : similar_itemid_list, 'category_list': category_list, 
                             'split_time_list' : split_time_list, 'video_subject': video_subject})
         
         # image 받을 때
         else:
-            similar_itemid_list, category_list, video_subject = input_img(model_sim, url, fdir, image_name, video_subject)
+            similar_itemid_list, category_list, video_subject = input_img(model_sim, url, fdir, image_name, cur)
 
             return jsonify({'similar_itemid_list' : similar_itemid_list, 'category_list': category_list, 'video_subject': video_subject})
 
