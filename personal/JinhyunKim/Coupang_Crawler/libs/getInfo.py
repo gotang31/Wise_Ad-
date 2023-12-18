@@ -22,9 +22,15 @@ def getinfo(string):
         img_src = dt_class_image.find('img').get('src')
         imglist.append(img_src)
 
+<<<<<<< HEAD
         #name
         div_class_name = product.find('div',{'class':'name'})
         name_text = div_class_name.getText()
+=======
+        # 상품명 추출
+        div_class_name = product.find('div', {'class':'name'})
+        name_text = div_class_name.getText().strip()
+>>>>>>> e1fb27c8135956ab028d7650bf249719e386260b
         namelist.append(name_text)
 
         #price
@@ -47,9 +53,15 @@ def getinfo(string):
             reviewlist.append(review_cnt)
         except:
             reviewlist.append(pd.NA)
+<<<<<<< HEAD
 
         #url
         a_class_baby_product_link = product.find('a',{'class':'baby-product-link'})
+=======
+z
+        # 상품 URL 추출
+        a_class_baby_product_link = product.find('a', {'class':'baby-product-link'})
+>>>>>>> e1fb27c8135956ab028d7650bf249719e386260b
         href = a_class_baby_product_link.get('href')
         link = f'https://coupang.com'+href
         linklist.append(link)

@@ -4,11 +4,17 @@ from bs4 import BeautifulSoup
 
 # 정상적인 크롤링을 위한 헤더값 지정
 headers = {
+<<<<<<< HEAD
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Whale/3.22.205.26 Safari/537.36' , 'Accept-Language' : 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'}
 
 # (experimental) 인증을 우회하기 위한 방법으로 login 세션 구현
 loginURL = r"https://login.coupang.com/login/login.pang?rtnUrl=https%3A%2F%2Fwww.coupang.com%2Fnp%2Fpost%2Flogin%3Fr%3Dhttps%253A%252F%252Fwww.coupang.com%252F"
 loginForm = {'login-email-input': 'ID', 'login-password-input': 'PW'}   # ID : 사용자의 ID; PW : 사용자의 PW 직접 입력 필요
+=======
+    'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36' , 'Accept-Language' : 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'}
+
+loginURL = 'https://login.coupang.com/login/login.pang?rtnUrl=https%3A%2F%2Fwww.coupang.com%2Fnp%2Fpost%2Flogin%3Fr%3Dhttps%253A%252F%252Fwww.coupang.com%252F'
+>>>>>>> e1fb27c8135956ab028d7650bf249719e386260b
 
 url = r"https://www.coupang.com/np/categories/502995"    # 크롤링 할 카테고리의 주소 입력!!!
 
