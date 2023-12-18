@@ -1,18 +1,22 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import React from "react";
+import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+//STATIC IMPORTS
 
 import { TestScreen } from "../screens/TestScreen";
+import { StartScreen } from "../screens/StartScreen";
 import { MainScreen } from "../screens/MainScreen";
 
 const ExtensionRouter = () => {
+    useEffect(()=>{console.log("online")}, [])
+    
     return (
-        <BrowserRouter>
-        <Link to={"/"}>Hello</Link>
+        <HashRouter>
             <Routes>
-                <Route path="/" element={<MainScreen />} />
+                <Route path="/" element={<StartScreen />} />
+                <Route path="/main" element={<MainScreen />} />
                 <Route path="/test" element={<TestScreen />} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 

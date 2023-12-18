@@ -9,8 +9,9 @@ line6 : User-agent<br>
 
 # 01 How to Use
 ## Data Generator
-install postgresql(username : postgres, password : postgres)<br>
-create database "youreco"<br>
-modify hardcoding variables(refer 00)<br>
-python main.py<br>
+- install postgresql(username : postgres, password : postgres)<br>
+- create database "youreco"<br>
+- modify hardcoding variables(refer 00)<br>
+- download dataset from google drive and unzip on DataGenerator/data(mkdir and cp)<br>
+- python main.py<br>
 
