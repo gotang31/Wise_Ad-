@@ -2,7 +2,7 @@ import pandas as pd
 
 from create_user import create_insert_user_sql
 from create_transaction import create_transaction_sql, execute_transaction_sql, initialize_db
-from create_item import insert_item_from_excel_list
+from create_item import insert_item_from_excel_list, insert_item_from_excel
 from create_statistics_table import create_statistics_table
 import psycopg2 as pg
 
@@ -15,15 +15,15 @@ if __name__ == '__main__':
     # create_insert_user_sql(1000)
     #
     # # initialize db & execute sql files
-    # initialize_db(cur)
-    # conn.commit()
+    initialize_db(cur)
+    conn.commit()
     #
     # # import items from excel
-    # insert_item_from_excel_list(cur)
-    # conn.commit()
+    insert_item_from_excel_list(cur)
+    conn.commit()
 
-    # # create statistics table
-    # create_statistics_table()
+    # create statistics table
+    create_statistics_table()
 
     # create data on database
     create_transaction_sql(cur, 1000)
@@ -38,3 +38,4 @@ if __name__ == '__main__':
     # disconnect DB
     cur.close()
     conn.close()
+

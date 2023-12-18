@@ -17,7 +17,8 @@ create table iteminfo
         rating numeric(2,1),
         reviews int,
         youreco_reviews int,
-        imagefile varchar(30),
+        imagefile varchar(150),
+        link varchar(250),
         primary key (itemid)
     );
 
