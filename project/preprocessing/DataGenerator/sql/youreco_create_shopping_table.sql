@@ -31,3 +31,13 @@ create table transactioninfo
         foreign key (userid) references userinfo (userid),
         foreign key (itemid) references iteminfo (itemid)
     );
+
+create table recommendation
+    (
+        id SERIAL primary key,
+        url varchar(100),
+        start_time int,
+        end_time int,
+        category int,
+        sim_itemlist int[]
+    );

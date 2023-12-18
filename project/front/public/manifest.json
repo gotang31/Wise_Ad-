@@ -12,23 +12,22 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_script": [
-    {
-      "matches" : ["https://*.youtube.com/*"],
-      "js" : ["contentScript.js"],
-      "css" : ["contentScript.css"]
-    }
-  ],
   "action": {
     "default_icon": {
       "16": "images/16.png",
       "32": "images/32.png",
       "48": "images/48.png",
       "128": "images/128.png"
-    },
-    "default_popup": "index.html"
+    }
   },
-  "permissions": ["scripting", "activeTab"],
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": ["scripting", "activeTab", "sidePanel","notifications"],
+  "host_permissions": [
+    "http://*/",
+    "https://*/"
+  ],
   "commands": {
     "_execute_action": {
       "suggested_key": {

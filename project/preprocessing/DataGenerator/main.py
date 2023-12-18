@@ -17,8 +17,8 @@ if __name__ == '__main__':
     # # initialize db & execute sql files
     initialize_db(cur)
     conn.commit()
-    #
-    # # import items from excel
+
+    # import items from excel
     insert_item_from_excel_list(cur)
     conn.commit()
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     create_statistics_table()
 
     # create data on database
-    create_transaction_sql(cur, 1000)
+    # create_transaction_sql(cur, 1000)
     execute_transaction_sql(cur)
     conn.commit()
 

@@ -40,4 +40,17 @@ function RoundedButton(props) {
     )
 }
 
-export {RoundedButton}
+function IconButton(props) {
+  const image = props.image
+  const userFunction = props.onClick
+  const buttonText = props.text
+
+  return (
+    <div style={{display:"flex",flexDirection:"column", alignItems:"center", justifyContent:"center"}} onClick={userFunction}>
+      <img src={image} style={{width:"50px", height:"50px"}} />
+      <div style={{width:"80px", height:"20px", marginTop:10,  color:"#fff", fontWeight:"700", fontSize:12, borderRadius:20, borderStyle:"none", backgroundColor:"rgba(0,0,0,0)", textAlign:"center"}}>{buttonText}</div>
+    </div>
+  )
+}
+
+export {RoundedButton, IconButton}

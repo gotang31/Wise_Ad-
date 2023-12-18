@@ -8,10 +8,10 @@ function ProductDisplayer(props){
     const productImage = props.item[2];
 
     return(
-        <div style={{width:"100%", height:"100%", backgroundColor:"#fff"}}>
+        <div style={{width:"100%", height:"100%", backgroundColor:"#fff", borderRadius:10}}>
             <img style={{width:"100%", height:"80%"}} src={TESTIMAGE} className={productName} alt={productName} />
-            <div style={{fontSize:9 }}>{productName}</div>
-            <div style={{textAlign:"right", fontWeight:"700"}}>₩ {productPrice}</div>
+            <div style={{fontSize:9, marginLeft:5}}>{productName}</div>
+            <div style={{textAlign:"right", marginRight:5, fontWeight:"700"}}>₩ {productPrice}</div>
         </div>
     )
 }
