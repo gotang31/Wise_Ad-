@@ -20,39 +20,32 @@ model_sim = YouRecoSIm()
 conn = pg.connect(host="127.0.0.1", dbname="yourecovision", user="postgres", password="postgres", port=5432)
 cur = conn.cursor()
 
-fdir = '/practice_video'
-
-@app.route("/", methods=['GET'])
-def root():
-    return 'hello'
-
-@app.route("/ping", methods=['GET'])
-def ping():
-    return "hi"
+fdir = '/vision_dir'
 
 # 영상 처리 
-@app.route("/infer", methods=['POST'])
+@app.route("/infer_url", methods=['POST'])
 def inference():
     if request.method == 'POST': 
-        url = str(request.data, 'utf-8')
-        image_name = "extension에서 사용자가 멈출 때 시간의 문자열 넘겨줘야 함"
-        fdir = './practice_video'
+        params = request.json
+        url = params['url']
 
-        # url 받을 때
-        if url: 
-            similar_itemid_list, category_list, split_time_list, video_subject = input_url(model_detect, model_sim, url, fdir, cur)
+        resp = input_url(model_detect, model_sim, url, fdir, cur)
 
-            return jsonify({'similar_itemid_list' : similar_itemid_list, 'category_list': category_list, 
-                            'split_time_list' : split_time_list, 'video_subject': video_subject})
-        
-        # image 받을 때
-        else:
-            similar_itemid_list, category_list, video_subject = input_img(model_sim, url, fdir, image_name, cur)
+        return resp
 
-            return jsonify({'similar_itemid_list' : similar_itemid_list, 'category_list': category_list, 'video_subject': video_subject})
+@app.route("/infer_img", methods=['POST'])
+def inference():
+    if request.method == 'POST': 
+        params = request.json
+        url = params['url']
+        image_name = params['second']
 
-# 추천
+        similar_itemid_list, category_list, video_subject = input_img(model_sim, url, fdir, image_name, cur)
+
+        return jsonify({'similar_itemid_list' : similar_itemid_list, 'category_list': category_list, 'video_subject': video_subject})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+
+
 
