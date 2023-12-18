@@ -23,7 +23,7 @@ if __name__ == '__main__':
     conn.commit()
 
     # create statistics table
-    create_statistics_table()
+    # create_statistics_table()
 
     # create data on database
     create_transaction_sql(cur, 1000)
