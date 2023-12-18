@@ -6,11 +6,11 @@ from modules.importCategories import get_naver_category_code_list, naver_code_to
 
 def execute_initialize_sqls(cursor, path: str):
     cursor.execute("select count(*) from pg_stat_user_tables;")
-    if cursor.fetchone()[0] == 3:
-        cursor.execute(open("{0}/youreco_clear.sql".format(path), "r").read())
+    cursor.execute(open("{0}/youreco_clear.sql".format(path), "r").read())
     cursor.execute(open("{0}/youreco_init.sql".format(path), "r").read())
     cursor.execute(open("{0}/youreco_create_shopping_table.sql".format(path), "r").read())
     cursor.execute(open("{0}/insert_user.sql".format(path), "r", encoding='utf-8').read())
+    cursor.execute(open("{0}/create_dummy.sql".format(path), "r", encoding='utf-8').read())
 
 
 def initialize_db(cur):

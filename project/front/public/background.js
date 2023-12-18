@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 const extensions = 'https://www.youtube.com';
-const webstore = 'https://www.youtube.com';
 
 // When the user clicks on the extension action
 chrome.action.onClicked.addListener(async (tab) => {
-  if (tab.url.startsWith(extensions) || tab.url.startsWith(webstore)) {
+  if (tab?.url.startsWith(extensions)) {
     // We retrieve the action badge to check if the extension is 'ON' or 'OFF'
     const prevState = await chrome.action.getBadgeText({ tabId: tab.id });
     // Next state will always be the opposite
@@ -28,11 +27,6 @@ chrome.action.onClicked.addListener(async (tab) => {
       text: nextState
     });
   }
-});
-
-chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-  let url = tabs[0].url;
-  // use `url` here inside the callback because it's asynchronous!
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

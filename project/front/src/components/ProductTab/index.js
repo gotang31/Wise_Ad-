@@ -55,10 +55,10 @@ function DisplayProducts(props){
     const TESTDATA = [["강아지사료건식사료", "39,800", TESTIMAGE],["고양이사료건식사료", "39,800", TESTIMAGE],["펭귄사료건식사료", "39,800", TESTIMAGE],["기린사료건식사료", "39,800", TESTIMAGE]]
 
     return(
-        <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap", width:"100%", height:"90%", backgroundColor:"#fff"}}>
+        <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap", width:"100%", height:"90%", backgroundColor:"#fff", borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
             {TESTDATA.map((item, index)=>{
                 return(
-                    <div key={index} style={{display:"flex", width:"50%", height:"50%", alignItems:"center", justifyContent:"center" ,backgroundColor:"#c01718"}}>
+                    <div key={index} style={{display:"flex", width:"50%", height:"50%", alignItems:"center", justifyContent:"center" ,backgroundColor:"#c01718", borderRadius:10}}>
                         <ProductDisplayer item={item} />
                     </div>
                 )
@@ -67,4 +67,4 @@ function DisplayProducts(props){
     )
 }
 
-export { ProductTab }
+export { ProductTab, DisplayProducts }

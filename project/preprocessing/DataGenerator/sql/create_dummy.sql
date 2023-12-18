@@ -1,0 +1,3 @@
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',0,300, 385002, array[8493, 8517, 8559, 8629]);
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',300,600, 445726, array[13784, 21765, 21250, 21284]);
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',600,918, 119561, array[9073, 11887, 18761, 24267]);

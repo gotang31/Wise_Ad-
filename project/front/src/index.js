@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.css'
+import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.baseURL = "http://127.0.0.1:5001/api"
 root.render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

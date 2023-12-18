@@ -4,4 +4,7 @@
     <option name="sdkName" value="Python 3.11 (pythonORM-sobtL68W)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Pipenv (DataGenerator)" project-jdk-type="Python SDK" />
+  <component name="PyCharmProfessionalAdvertiser">
+    <option name="shown" value="true" />
+  </component>
 </project>
