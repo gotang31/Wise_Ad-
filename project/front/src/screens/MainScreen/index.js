@@ -7,7 +7,7 @@ import Lottie from "lottie-react"
 //Local Imports
 import { ProductTab } from "../../components/ProductTab/index.js"
 import { GetByYoutubeLink, GetByYoutubeLinkAndSec } from "../../api/index.js"
-import { VideoIdExtractFromURL, SecToTimestring, TimestringToSec, GetCurrentUrl} from "../../utils/index.js"
+import { VideoIdExtractFromURL, SecToTimestring, TimestringToSec, GetCurrentUrl, CoupangCodeToCategoryName} from "../../utils/index.js"
 
 //Static Imports
 import OwlFindingLottie from "../../assets/OwlFindingLottie.json"
@@ -103,7 +103,7 @@ function MainScreen(){
                 <div style={{display:"flex", width:"30%", height:"100%", flexDirection:"column", justifyContent:"start", alignItems:"center"}}><Lottie style={{height:"80%"}} animationData={OwlFindingLottie}></Lottie><BlinkText style={{fontSize: 11, color:"#fff", fontWeight:"500", marginTop:-20}}>영상 인식중..</BlinkText></div>
                 <div style={{display:"flex", width:"70%", flexDirection:"column"}}>
                     <div style={{display:"flex", color:"#fff", alignItems:"center", justifyContent:"center", marginTop:20, marginBottom:20}}>
-                        현재 추천 카테고리 : {curFocusKey || "없음"}
+                        구간 {sectionIdx} 카테고리 : {CoupangCodeToCategoryName(curTabs[0]) || "없음"}
                     </div>
                     <div style={{display:"flex", width:"100%", justifyContent:"space-evenly", alignItems:"center"}}>
                         <IconButton image={SearchImage} text={"Search"} onClick={() => {
