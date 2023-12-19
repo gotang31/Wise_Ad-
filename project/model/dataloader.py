@@ -57,7 +57,7 @@ def main():
         ''', params ={'data': df.to_dict('records')})
     print('Supercategory nodes 생성 완료')
     
-    # category nodes 생성 (0, 1, -1)
+    # metacategory nodes 생성 (0, 1, -1)
     gds.run_cypher('CREATE CONSTRAINT IF NOT EXISTS FOR (m:Metacategory) REQUIRE (m.metacategoryID) IS NODE KEY')
     create_metaacategory_res = gds.run_cypher('''
         UNWIND $data AS row
