@@ -11,6 +11,7 @@ def clean_filename(title):
 
 def download_videos(fdir, url):
     urls = 'https://www.youtube.com/watch?v=' + url
+    print(url)
     yt = YouTube(urls)
     video_time = yt.length
     yt.streams.get_highest_resolution().download(output_path = fdir, filename = "{0}.mp4".format(url))
