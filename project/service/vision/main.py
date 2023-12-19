@@ -6,7 +6,6 @@ import torch
 import psycopg2 as pg
 
 app = Flask(__name__)
-
 # 모델 미리 선언하여 inference 계속 진행될 수 있도록
 
 model_detect = Detr()
@@ -17,10 +16,10 @@ model_detect.eval()
 
 model_sim = YouRecoSIm()
 
-conn = pg.connect(host="127.0.0.1", dbname="recommendation", user="postgres", password="postgres", port=5432)
+conn = pg.connect(host="127.0.0.1", dbname="youreco", user="postgres", password="postgres", port=5432)
 cur = conn.cursor()
 
-fdir = '/vision_dir'
+fdir = './vision_dir'
 
 # 영상 처리 
 @app.route("/infer_url", methods=['POST'])

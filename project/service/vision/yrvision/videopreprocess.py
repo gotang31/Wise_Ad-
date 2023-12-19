@@ -11,14 +11,15 @@ def clean_filename(title):
 
 def download_videos(fdir, url):
     urls = 'https://www.youtube.com/watch?v=' + url
+    print(url)
     yt = YouTube(urls)
     video_time = yt.length
-    yt.streams.get_highest_resolution().download(output_path = fdir, filename = url)
+    yt.streams.get_highest_resolution().download(output_path = fdir, filename = "{0}.mp4".format(url))
     
     return video_time
 
 def create_imgframes(fdir, url):
-    file = f'{fdir}/{url}'
+    file = f'{fdir}/{url}.mp4'
     video = cv2.VideoCapture(file)
     
     if not video.isOpened():
@@ -48,7 +49,7 @@ def create_imgframes(fdir, url):
             result, encoded_image = cv2.imencode('.jpg', image)
             if result:
                 frame_filepath = f"{img_dir}/{count}.jpg"
-                with open(frame_filepath, "wb") as f:  # wb 모드로 바이너리 파일을 연다.
+                with open(frame_filepath, "wb+") as f:  # wb 모드로 바이너리 파일을 연다.
                     f.write(encoded_image)
                 count += 1
 

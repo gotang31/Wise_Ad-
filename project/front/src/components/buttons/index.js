@@ -6,6 +6,7 @@ import "./index.css"
 
 function RoundedButton(props) {
     const [isHovering, setIsHovering] = useState(false);
+    const onClickFunction = props.onClick
   
     const handleMouseOver = () => {
       setIsHovering(true);
@@ -16,7 +17,7 @@ function RoundedButton(props) {
     };
 
     return (
-        <Link style={{
+        <button style={{
             width:'50%',
             heigh:"40px",
             paddingTop:'5px',
@@ -29,15 +30,53 @@ function RoundedButton(props) {
             backgroundColor: "#fff",
             color:'#123',
             borderRadius:'20px',
-            fontWeight:'700'
+            fontWeight:'700',
+            borderStyle:'none'
         }}
         className={isHovering ? "grow" : ""} 
         to={'/' + props.link} 
         onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}>
+        onMouseOut={handleMouseOut}
+        onClick={onClickFunction}>
             {props.text}
-        </Link>
+        </button>
     )
+}
+
+function RoundedLinkButton(props) {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
+  return (
+      <Link style={{
+          width:'50%',
+          heigh:"40px",
+          paddingTop:'5px',
+          paddingBottom:'5px',
+          display:'flex',
+          justifyContent:'center',
+          alignItems:'center',
+          margin: '5px',
+          textDecoration:'none',
+          backgroundColor: "#fff",
+          color:'#123',
+          borderRadius:'20px',
+          fontWeight:'700'
+      }}
+      className={isHovering ? "grow" : ""} 
+      to={'/' + props.link} 
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}>
+          {props.text}
+      </Link>
+  )
 }
 
 function IconButton(props) {
@@ -53,4 +92,4 @@ function IconButton(props) {
   )
 }
 
-export {RoundedButton, IconButton}
+export {RoundedButton, RoundedLinkButton, IconButton}
