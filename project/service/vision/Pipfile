@@ -4,6 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+torch = "*"
+psycopg2 = "*"
+torchvision = "*"
+pytorch-lightning = "*"
+transformers = "*"
+faiss-cpu = "*"
+pytube = "*"
+opencv-python = "*"
 
 [dev-packages]
 
