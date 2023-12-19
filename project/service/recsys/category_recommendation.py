@@ -13,10 +13,12 @@ def category_recommender(userID, key_category):
         // key_category에 대해서 supercategory를 찾기
         MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySupercategory:Supercategory)
         
-        // Find similar users
+        // 유사한 users 찾기
         MATCH (targetUser:User {userID: $userID})-[:SIMILAR]->(similarUser:User)
         
-        // Find categories liked by similar users
+        // 유사한 users가 선호하는 category를 찾습니다.
+        // 현재 나오고 있는 key_category와 너무 멀어지지 않도록 같은 supercategory 내에서 추천이 진행되도록 합니다.
+        // 카테고리 중 가장 많은 유저가 선호하는 카데고리를 추천해줍니다.
         MATCH (similarUser)-[:PREFERENCE]->(category:Category)-[:CATEGORY_BELONGS_TO]->(supercategory:Supercategory)
         WHERE category.categoryID <> $key_categoryID AND supercategory.supercategoryID = keySupercategory.supercategoryID
         WITH category.categoryID AS categoryID, COUNT(*) AS recommendationScore
