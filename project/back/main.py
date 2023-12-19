@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 import psycopg2 as pg
 from requests import get, post
 import os
@@ -16,24 +16,23 @@ def response():
     return "Hello, World"
 
 
+@app.route("/api/image", methods=['GET'])
+def returnImage():
+    imageID = request.args.get('imgID', "None")
+    cateID = request.args.get('category', "None")
+    return send_file('data\\{0}\\{1}\\{2}.jpg'.format(cateID, imageID, imageID))
+
 @app.route("/api/videoinfo", methods=['GET'])
 def send_by_link():
     youtube_link = request.args.get('vID', "None")
-    cur.execute("SELECT * FROM recommendation where url='{0}';".format(youtube_link))
+    cur.execute("SELECT * FROM inferenceinfo where url='{0}';".format(youtube_link))
     section_list = cur.fetchall()
-    print(section_list)
     if len(section_list) == 0:
         return 'None'
     elif len(section_list) > 0:
-        # get Related Items by Category Code
-        def get_recommendation(cateID):
-            # communicate with rec server
-            return [[8493, 8517, 8559, 8629], [8493, 8517, 8559, 8629], [8493, 8517, 8559, 8629]]
-
-        rel_item_list = get_recommendation(section_list)
 
         # append rel_items
-        new_section_list = create_new_section_list(section_list, rel_item_list)
+        new_section_list = create_new_section_list(section_list)
 
 
         return new_section_list
@@ -43,6 +42,11 @@ def send_by_link():
 def send_by_link_sec():
     youtube_link = request.args.get('vID', "None")
     youtube_second = request.args.get('second', "None")
+
+    # request to vision with snapshot
+
+
+
     return "Get YoutubeLink {0} {1}".format(youtube_link, youtube_second)
 
 

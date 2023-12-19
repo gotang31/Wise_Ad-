@@ -26848,3 +26848,4 @@ INSERT INTO transactioninfo(userid, itemid, rating) VALUES(166,49789,5);
 UPDATE iteminfo set youreco_reviews = youreco_reviews + 1 where itemid = 49789;
 INSERT INTO transactioninfo(userid, itemid, rating) VALUES(166,49789,5);
 UPDATE iteminfo set youreco_reviews = youreco_reviews + 1 where itemid = 49789;
+>>>>>>> e1fb27c8135956ab028d7650bf249719e386260b

@@ -100,6 +100,22 @@ def key_extraction(inference_list, video_time):
             break
             
     key_result = sorted(key_result, key = lambda x : x[0])          # 시간순 정렬
-    split_time_list = list(round(interval_time) * i for i in range(1, category_num_detect))
+    split_time_list = [0] + list(round(interval_time) * i for i in range(1, category_num_detect)) + [video_time]
 
     return key_result, split_time_list
+
+# 영상 추론 DB 테이블 틀은 만들어져있다고 생각
+def insert_result_from_inference(cursor, url, split_time_list, similar_itemid_list, category_list, video_subject):
+    f = open('./sql/insert_inference_result.sql', 'w+', encoding="utf-8")
+    for i in range(len(split_time_list)-1):
+        start_time = split_time_list[i]
+        end_time = split_time_list[i+1]
+        category = category_list[i]
+        sim_itemlist = similar_itemid_list[i]
+        cursor.execute(
+                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},{4},{5}');".format(
+                    url, start_time, end_time, category, sim_itemlist, video_subject))
+        f.write(
+                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},{4},{5}');\n".format(
+                    url, start_time, end_time, category, sim_itemlist, video_subject))
+    f.close()

@@ -17,9 +17,11 @@ function StartScreen(){
 
     useEffect(() =>{GetCurrentUrl(setCurUrl);}, []);
     useEffect(() =>{
+        GetCurrentUrl(setCurUrl);
         const videoID = VideoIdExtractFromURL(curUrl);
         if(curUrl !== ""){
             GetByYoutubeLink(videoID).then((res)=>{
+                console.log(res)
                 if(res == "None"){
                     let curUrlIsYoutube = curUrl?.search("youtube.com/watch");
                     if(curUrlIsYoutube == -1){

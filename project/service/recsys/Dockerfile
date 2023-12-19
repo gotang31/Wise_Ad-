@@ -6,4 +6,4 @@ WORKDIR /app
 RUN python -m pip install --upgrade pip
 RUN pip install pipenv && pipenv install --dev --system --deploy
 
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]

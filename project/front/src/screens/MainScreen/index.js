@@ -7,7 +7,7 @@ import Lottie from "lottie-react"
 //Local Imports
 import { ProductTab } from "../../components/ProductTab/index.js"
 import { GetByYoutubeLink, GetByYoutubeLinkAndSec } from "../../api/index.js"
-import { VideoIdExtractFromURL, SecToTimestring, TimestringToSec, GetCurrentUrl } from "../../utils/index.js"
+import { VideoIdExtractFromURL, SecToTimestring, TimestringToSec, GetCurrentUrl} from "../../utils/index.js"
 
 //Static Imports
 import OwlFindingLottie from "../../assets/OwlFindingLottie.json"
@@ -22,11 +22,14 @@ function MainScreen(){
     const [curUrl, setCurUrl] = useState("");
     const [curTime, setCurTime] = useState("00:00");
     const [duration, setDuration] = useState("00:00");
-    const [curTabs, setCurTabs] = useState(["낙타", "펭귄", "나무늘보", "키위"])
-    const [curFocusKey, setCurFocusKey] = useState("강아지")
+    const [recommendInfo, setRecommendInfo] = useState([]);
+    const [sectionIdx, setSectionIdx] = useState(-1);
+    const [curTabs, setCurTabs] = useState(["Category 01", "Category 02", "Category 03", "Category 04"]);
+    const [itemList, setItemList] = useState([])
+    const [curFocusKey, setCurFocusKey] = useState("강아지");
     const navigate = useNavigate()
     
-    useEffect(() =>{GetCurrentUrl(setCurUrl);}, []);
+    useEffect(() =>{GetCurrentUrl(setCurUrl); setSectionIdx(1)}, []);
     useEffect(() =>{
         const videoID = VideoIdExtractFromURL(curUrl);
         if(curUrl !== ""){
@@ -36,12 +39,27 @@ function MainScreen(){
                 }
                 else {
                     navigate("/main")
-                    alert(res)
-                    console.log(res)
+                    setRecommendInfo(res)
                 }
             })
         }
+        setSectionIdx(-1);
     },[curUrl])
+
+    useEffect(() => {
+        const sim_cate = recommendInfo[sectionIdx]?.category[0];
+        const rel_cate_01 = recommendInfo[sectionIdx]?.category[1];
+        const rel_cate_02 = recommendInfo[sectionIdx]?.category[2];
+        const rel_cate_03 = recommendInfo[sectionIdx]?.category[3];
+        setCurTabs([sim_cate, rel_cate_01, rel_cate_02, rel_cate_03])
+
+        const sim_item_list = recommendInfo[sectionIdx]?.sim_item
+        const rel_item_list_01 = recommendInfo[sectionIdx]?.rel_item_01
+        const rel_item_list_02 = recommendInfo[sectionIdx]?.rel_item_02
+        const rel_item_list_03 = recommendInfo[sectionIdx]?.rel_item_03
+        setItemList([sim_item_list, rel_item_list_01,rel_item_list_02, rel_item_list_03])
+
+    },[sectionIdx])
     
     
     //Get Current Tabs Youtube Video Time per second. activated properly when timeline visible
@@ -56,10 +74,17 @@ function MainScreen(){
                     }).then((result) => {
                         const curSec = result[0].result[0];
                         const duration = result[0].result[1];
-                        console.log(curSec, "/", duration);
                         setCurTime(SecToTimestring(curSec));
                         setDuration(SecToTimestring(duration));
                         GetCurrentUrl(setCurUrl);
+                        if (recommendInfo !== undefined){
+                            if (sectionIdx < 0 || curSec > recommendInfo[sectionIdx]?.end_time){
+                                setSectionIdx(sectionIdx + 1)
+                            }
+                            else if(curSec < recommendInfo[sectionIdx]?.start_time){
+                                setSectionIdx(sectionIdx - 1)
+                            }
+                        }
                     })
                 }
             })
@@ -69,9 +94,9 @@ function MainScreen(){
     return(
         <div style={{display:"flex", width:"100%", height:"100%", flexDirection:"column", backgroundColor: "#123", borderRadius:10}}>
             <div className="Header" style={{height:"7%", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontSize:17, fontWeight:"700"}}>YOURECO ({curTime} / {duration})</div>
-            <div className="URL" style={{height:"3%", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff"}}>{curUrl}</div>
+            <div className="URL" style={{height:"3%", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontSize:9}}>{curUrl}</div>
             <div className="ProductDisplay" style={{height:"70%", marginLeft:10, marginRight:10}}>
-                <ProductTab tabFirst={curTabs[0]} tabSecond={curTabs[1]} tabThird={curTabs[2]} tabFourth={curTabs[3]}/>
+                <ProductTab tabFirst={curTabs[0]} tabSecond={curTabs[1]} tabThird={curTabs[2]} tabFourth={curTabs[3]} itemlist={itemList}/>
             </div>
             <div className="UserInterface" style={{height:"20%", display:"flex"}}>
                 <div style={{display:"flex", width:"30%", height:"100%", flexDirection:"column", justifyContent:"start", alignItems:"center"}}><Lottie style={{height:"80%"}} animationData={OwlFindingLottie}></Lottie><BlinkText style={{fontSize: 11, color:"#fff", fontWeight:"500", marginTop:-20}}>영상 인식중..</BlinkText></div>
@@ -80,7 +105,11 @@ function MainScreen(){
                         현재 추천 카테고리 : {curFocusKey || "없음"}
                     </div>
                     <div style={{display:"flex", width:"100%", justifyContent:"space-evenly", alignItems:"center"}}>
-                        <IconButton image={SearchImage} text={"Search"} onClick={() => {GetByYoutubeLinkAndSec(VideoIdExtractFromURL(curUrl),TimestringToSec(curTime))}} />
+                        <IconButton image={SearchImage} text={"Search"} onClick={() => {
+                            GetByYoutubeLinkAndSec(VideoIdExtractFromURL(curUrl),TimestringToSec(curTime));
+                            //setCurTabs(response) by response
+                            //setItemList(response)
+                            }} />
                         <IconButton image={WishlistImage} text={"Wishlist"} onClick={() => {navigate("/wish")}}/>
                         <IconButton image={RefreshImage} text={"Refresh"} onClick={() => {ResetTimeout(curTime, setCurTime)}} />
                     </div>

@@ -32,12 +32,13 @@ create table transactioninfo
         foreign key (itemid) references iteminfo (itemid)
     );
 
-create table recommendation
+create table inferenceinfo
     (
         id SERIAL primary key,
         url varchar(100),
         start_time int,
         end_time int,
         category int,
-        sim_itemlist int[]
+        sim_itemlist int[],
+        video_subject int
     );
