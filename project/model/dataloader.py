@@ -48,16 +48,7 @@ def main():
     ''', params ={'data':df.to_dict('records')})
     print('Category nodes 생성 완료')
     
-    # subcategory nodes 생성 (['강아지 사료'] ['강아지 간식'] 등등...)
-    gds.run_cypher('CREATE CONSTRAINT IF NOT EXISTS FOR (s:Subcategory) REQUIRE (s.subcategoryID) IS NODE KEY')
-    create_subcategory_res = gds.run_cypher('''
-        UNWIND $data AS row
-        MERGE (s:Subcategory{subcategoryID: row.subcategory})
-        RETURN count(*) AS subcategories_created
-        ''', params ={'data': df.to_dict('records')})
-    print('Subcategory nodes 생성 완료')
-    
-    # supercategory nodes 생성 (0, 1, -1)
+    # supercategory nodes 생성 (['강아지 사료'] ['강아지 간식'] 등등...)
     gds.run_cypher('CREATE CONSTRAINT IF NOT EXISTS FOR (s:Supercategory) REQUIRE (s.supercategoryID) IS NODE KEY')
     create_supercategory_res = gds.run_cypher('''
         UNWIND $data AS row
@@ -65,6 +56,15 @@ def main():
         RETURN count(*) AS supercategories_created
         ''', params ={'data': df.to_dict('records')})
     print('Supercategory nodes 생성 완료')
+    
+    # category nodes 생성 (0, 1, -1)
+    gds.run_cypher('CREATE CONSTRAINT IF NOT EXISTS FOR (m:Metacategory) REQUIRE (m.metacategoryID) IS NODE KEY')
+    create_metaacategory_res = gds.run_cypher('''
+        UNWIND $data AS row
+        MERGE (m:Metacategory{metacategoryID: row.metacategory})
+        RETURN count(*) AS metacategories_created
+        ''', params ={'data': df.to_dict('records')})
+    print('Metacategory nodes 생성 완료')
     
     # 2. Item 추천 관련 node 추가 생성
     # User nodes 생성
@@ -96,23 +96,23 @@ def main():
     
     # 모든 relationship 생성 (node와 node 사이 연결 관계를 생성합니다)
     # 1. Category 관련 relationship 생성
-    # (Category)-[:CATEGORY_BELONGS_TO]->(Subcategory) relation 생성 (Category보다 Subcategory를 상위 개념으로 두었습니다)
+    # (Category)-[:CATEGORY_BELONGS_TO]->(Supercategory) relation 생성 (Category보다 Supercategory를 상위 개념으로 두었습니다)
     create_category_belongs_to = gds.run_cypher('''
         UNWIND $data AS row
-        MATCH (c:Category{categoryID: row.categoryID}), (s:Subcategory{subcategoryID: row.subcategory})
+        MATCH (c:Category{categoryID: row.categoryID}), (s:Supercategory{supercategoryID: row.supercategory})
         MERGE (c)-[r:CATEGORY_BELONGS_TO]->(s)
         RETURN count(*) AS create_category_belongs_to
         ''', params = {'data':df.to_dict('records')})
     print('CATEGORY_BELONGS_TO relationship 생성 완료')
     
-    # (Subcategory)-[:SUBCATEGORY_BELONGS_TO]->(Supercategory) relation 생성 (Subcategory보다 Supercategory를 상위 개념으로 두었습니다)
-    create_subcat_belongs_to = gds.run_cypher('''
+    # (Supercategory)-[:SUPERCATEGORY_BELONGS_TO]->(Metacategory) relation 생성 (Supercategory보다 Metacategory를 상위 개념으로 두었습니다)
+    create_supercat_belongs_to = gds.run_cypher('''
         UNWIND $data AS row
-        MATCH (s:Subcategory{subcategoryID: row.subcategory}), (ss:Supercategory{supercategoryID: row.supercategory})
-        MERGE (s)-[r:SUBCATEGORY_BELONGS_TO]->(ss)
-        RETURN count(*) AS create_subcat_belongs_to
+        MATCH (s:Supercategory{supercategoryID: row.supercategory}), (m:Metacategory{metacategoryID: row.metacategory})
+        MERGE (s)-[r:SUPERCATEGORY_BELONGS_TO]->(m)
+        RETURN count(*) AS create_supercat_belongs_to
         ''', params = {'data':df.to_dict('records')})
-    print('SUBCATEGORY_BELONGS_TO relationship 생성 완료')
+    print('SUPERCATEGORY_BELONGS_TO relationship 생성 완료')
     
     # 2. Item 추천 관련 relationship 생성
     # Rated relationship (User -[:RATED]-> Item relationship 생성) (User가 Item에 평점을 매긴 관계입니다)
@@ -134,7 +134,7 @@ def main():
         ''', params = {'data': items.to_dict('records')})
     print('BELONGS_TO relationship 생성 완료')
     
-    # subcategoryID = ['공통']인 것에 
+    # supercategoryID = ['공통']인 것에 
     # (119562, 118920)->238482, (119564, 118922)->238486, (157054, 118926)->275980
     # 이렇게 새로운 categoryID를 부여하여 item을 넣어줍니다. (위에 묶여서 나온 categoryID는 detection 단계에서 하나로 detection을 진행하는 categoryID입니다)
     # 이는 영상에서 강아지, 고양이가 동수일 경우인 video_subject=-1를 대비하는 것입니다.
@@ -150,9 +150,9 @@ def main():
     
         //newCategory node를 만듭니다.
         MERGE (newCategory:Category {categoryID: mapping.newCategoryID})
-        //newCategory가 들어갈 subcategory node인 ['공통']을 newCategory와 relationship을 형성해줍니다.
-        MERGE (subCategory:Subcategory {subcategoryID: "['공통']"})
-        MERGE (newCategory)-[:CATEGORY_BELONGS_TO]->(subCategory)
+        //newCategory가 들어갈 supercategory node인 ['공통']을 newCategory와 relationship을 형성해줍니다.
+        MERGE (superCategory:Supercategory {supercategoryID: "['공통']"})
+        MERGE (newCategory)-[:CATEGORY_BELONGS_TO]->(superCategory)
     
         //oldCategory node에 연결되어 있던 item들을 newCategory node에도 연결을 해줍니다.
         WITH newCategory, mapping

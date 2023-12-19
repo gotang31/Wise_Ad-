@@ -10,15 +10,15 @@ gds = config.get_gds()
 
 def category_recommender(userID, key_category):
     recommend_category = gds.run_cypher('''
-        // key_category에 대해서 subcategory를 찾기
-        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySubcategory:Subcategory)
+        // key_category에 대해서 supercategory를 찾기
+        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySupercategory:Supercategory)
         
         // Find similar users
         MATCH (targetUser:User {userID: $userID})-[:SIMILAR]->(similarUser:User)
         
         // Find categories liked by similar users
-        MATCH (similarUser)-[:PREFERENCE]->(category:Category)-[:CATEGORY_BELONGS_TO]->(subcategory:Subcategory)
-        WHERE category.categoryID <> $key_categoryID AND subcategory.subcategoryID = keySubcategory.subcategoryID
+        MATCH (similarUser)-[:PREFERENCE]->(category:Category)-[:CATEGORY_BELONGS_TO]->(supercategory:Supercategory)
+        WHERE category.categoryID <> $key_categoryID AND supercategory.supercategoryID = keySupercategory.supercategoryID
         WITH category.categoryID AS categoryID, COUNT(*) AS recommendationScore
         RETURN categoryID
         ORDER BY recommendationScore DESC
@@ -35,9 +35,9 @@ def category_recommender(userID, key_category):
         category_id = int(recommend_category['category.categoryID'].iloc[0])
             
         additional_rec_cat = gds.run_cypher('''
-        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySubcategory:Subcategory)
-        MATCH (category:Category)-[:CATEGORY_BELONGS_TO]->(subcategory:Subcategory)
-        WHERE NOT category.categoryID = $categoryID AND NOT category.categoryID = $key_categoryID AND subcategory.subcategoryID = keySubcategory.subcategoryID
+        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySupercategory:Supercategory)
+        MATCH (category:Category)-[:CATEGORY_BELONGS_TO]->(supercategory:Supercategory)
+        WHERE NOT category.categoryID = $categoryID AND NOT category.categoryID = $key_categoryID AND supercategory.supercategoryID = keySupercategory.supercategoryID
         WITH category.categoryID AS categoryID 
         return categoryID
         ORDER BY rand()
@@ -49,9 +49,9 @@ def category_recommender(userID, key_category):
     # 추천해준 카테고리 수가 0개인 경우
     elif cat_rec_num == 0:
         additional_rec_cat = gds.run_cypher('''
-        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySubcategory:Subcategory)
-        MATCH (category:Category)-[:CATEGORY_BELONGS_TO]->(subcategory:Subcategory)
-        WHERE NOT category.categoryID = $key_categoryID AND subcategory.subcategoryID = keySubcategory.subcategoryID
+        MATCH (keyCategory:Category {categoryID: $key_categoryID})-[:CATEGORY_BELONGS_TO]->(keySupercategory:Supercategory)
+        MATCH (category:Category)-[:CATEGORY_BELONGS_TO]->(supercategory:Supercategory)
+        WHERE NOT category.categoryID = $key_categoryID AND supercategory.supercategoryID = keySupercategory.supercategoryID
         WITH category.categoryID AS categoryID
         RETURN categoryID
         ORDER BY rand()
