@@ -58,6 +58,7 @@ function MainScreen(){
         const rel_item_list_02 = recommendInfo[sectionIdx]?.rel_item_02
         const rel_item_list_03 = recommendInfo[sectionIdx]?.rel_item_03
         setItemList([sim_item_list, rel_item_list_01,rel_item_list_02, rel_item_list_03])
+        console.log(itemList)
 
     },[sectionIdx])
     

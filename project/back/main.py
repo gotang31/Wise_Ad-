@@ -25,17 +25,18 @@ def returnImage():
 @app.route("/api/videoinfo", methods=['GET'])
 def send_by_link():
     youtube_link = request.args.get('vID', "None")
-    cur.execute("SELECT * FROM inferenceinfo where url='{0}';".format(youtube_link))
-    section_list = cur.fetchall()
-    if len(section_list) == 0:
-        return 'None'
-    elif len(section_list) > 0:
+    if youtube_link != "":
+        cur.execute("SELECT * FROM inferenceinfo where url='{0}';".format(youtube_link))
+        section_list = cur.fetchall()
+        if len(section_list) == 0:
+            return 'None'
+        elif len(section_list) > 0:
 
-        # append rel_items
-        new_section_list = create_new_section_list(section_list)
+            # append rel_items
+            new_section_list = create_new_section_list(section_list)
 
 
-        return new_section_list
+            return new_section_list
 
 
 @app.route("/api/videosecinfo", methods=['GET'])

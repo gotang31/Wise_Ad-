@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # create_statistics_table()
 
     # create data on database
-    create_transaction_sql(cur, 1000)
+    # create_transaction_sql(cur, 1000)
     execute_transaction_sql(cur)
     conn.commit()
 

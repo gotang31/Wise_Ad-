@@ -17,11 +17,13 @@ function ProductTab(props) {
     useEffect(() => {
         setItemList(props.itemlist[curTabIdx])
         setCurCategoryCode(category[curTabIdx])
+        console.log(category)
     }, [])
 
     useEffect(() => {
         setItemList(props.itemlist[curTabIdx])
         setCurCategoryCode(category[curTabIdx])
+        console.log(category)
     }, [curTabIdx,props])
 
     const firstTab = CoupangCodeToCategoryName(props.tabFirst)
