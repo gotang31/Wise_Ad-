@@ -4,7 +4,7 @@ function VideoIdExtractFromURL(curUrl){
     const url = curUrl;
     const regex = /[?&]v=([^&]+)/;
 
-    const match = url.match(regex);
+    const match = url?.match(regex);
     const videoID = match ? match[1] : null;
 
     return videoID;

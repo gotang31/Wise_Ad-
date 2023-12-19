@@ -1,3 +1,3 @@
-INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',0,300, 385002, array[5637, 5638, 5657, 5665]);
-INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',300,600, 445726, array[27, 28, 29, 30]);
-INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',600,918, 119561, array[9073, 11887, 18761, 24267]);
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',0,300, 2, array[5637, 5638, 5657, 5665]);
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',300,600, 7, array[27, 28, 29, 30]);
+INSERT INTO recommendation(url, start_time, end_time, category, sim_itemlist) VALUES('D8mq5L9R0GM',600,918, 3, array[9073, 11887, 18761, 24267]);

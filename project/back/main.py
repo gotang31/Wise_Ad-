@@ -27,7 +27,6 @@ def send_by_link():
     youtube_link = request.args.get('vID', "None")
     cur.execute("SELECT * FROM recommendation where url='{0}';".format(youtube_link))
     section_list = cur.fetchall()
-    print(section_list)
     if len(section_list) == 0:
         return 'None'
     elif len(section_list) > 0:
@@ -43,6 +42,11 @@ def send_by_link():
 def send_by_link_sec():
     youtube_link = request.args.get('vID', "None")
     youtube_second = request.args.get('second', "None")
+
+    # request to vision with snapshot
+
+
+
     return "Get YoutubeLink {0} {1}".format(youtube_link, youtube_second)
 
 

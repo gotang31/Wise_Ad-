@@ -105,7 +105,11 @@ function MainScreen(){
                         현재 추천 카테고리 : {curFocusKey || "없음"}
                     </div>
                     <div style={{display:"flex", width:"100%", justifyContent:"space-evenly", alignItems:"center"}}>
-                        <IconButton image={SearchImage} text={"Search"} onClick={() => {GetByYoutubeLinkAndSec(VideoIdExtractFromURL(curUrl),TimestringToSec(curTime))}} />
+                        <IconButton image={SearchImage} text={"Search"} onClick={() => {
+                            GetByYoutubeLinkAndSec(VideoIdExtractFromURL(curUrl),TimestringToSec(curTime));
+                            //setCurTabs(response) by response
+                            //setItemList(response)
+                            }} />
                         <IconButton image={WishlistImage} text={"Wishlist"} onClick={() => {navigate("/wish")}}/>
                         <IconButton image={RefreshImage} text={"Refresh"} onClick={() => {ResetTimeout(curTime, setCurTime)}} />
                     </div>
