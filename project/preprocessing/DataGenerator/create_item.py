@@ -2,11 +2,12 @@ import pandas as pd
 from modules.importCategories import get_coupang_category_code_list
 
 
-def insert_item_from_excel(cursor, category_code : str):
-    filename = category_code + ".xlsx"
-    print(filename)
-    # open category excel
-    df = pd.read_excel("./data/" + filename)
+#def insert_item_from_excel(cursor, category_code : str):
+def insert_item_from_excel(cursor, df) :
+    #filename = category_code + ".xlsx"
+    #print(filename)
+    ## open category excel
+    #df = pd.read_excel("./data/" + filename)
     newdf = df[["Name", "Category", "Price", "Rating", "#ofReview", "img_name", "Link"]]
     newdf = newdf.dropna()
 
@@ -30,5 +31,12 @@ def insert_item_from_excel(cursor, category_code : str):
 
 def insert_item_from_excel_list(cur):
     category_list = get_coupang_category_code_list()
-    for category in category_list:
-        insert_item_from_excel(cur, str(category))
+    lst = []
+    for category in category_list :
+        lst.append(pd.read_excel("./data/" + str(category) + '.xlsx'))
+    
+    df = pd.concat(lst, axis=0)
+    newdf = df.drop_duplicates(subset='img_name')
+
+    insert_item_from_excel(cur, newdf)
+
