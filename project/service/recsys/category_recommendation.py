@@ -1,5 +1,5 @@
 # category_recommendation.py
-#userID와 key_category를 받으면, tab2, tab3에 대한 카테고리를 추천해줍니다.
+# userID와 key_category를 받으면, tab2, tab3에 대한 카테고리를 추천해줍니다.
 
 import config
 import pandas as pd
