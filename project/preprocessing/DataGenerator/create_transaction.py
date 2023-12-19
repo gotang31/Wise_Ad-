@@ -14,7 +14,7 @@ def execute_initialize_sqls(cursor, path: str):
 
 
 def initialize_db(cur):
-    sql_directory_path = 'C:/Users/knuyh/Desktop/민지/고려대학교 교육/프로젝트/project/preprocessing/DataGenerator/sql'
+    sql_directory_path = 'C:/Users/Egn/Desktop/GitHub/KUSW/project/preprocessing/DataGenerator/sql'
     execute_initialize_sqls(cur, sql_directory_path)
 
 
@@ -95,5 +95,5 @@ def create_transaction_sql(cur, iter_num: int):
 
 
 def execute_transaction_sql(cur):
-    path = 'C:/Users/knuyh/Desktop/민지/고려대학교 교육/프로젝트/project/preprocessing/DataGenerator/sql'
+    path = 'C:/Users/Egn/Desktop/GitHub/KUSW/project/preprocessing/DataGenerator/sql'
     cur.execute(open("{0}/insert_transaction.sql".format(path), "r", encoding='utf-8').read())
