@@ -46,9 +46,16 @@ def send_by_link_sec():
 
     # request to vision with snapshot
 
-
-
     return "Get YoutubeLink {0} {1}".format(youtube_link, youtube_second)
+
+
+@app.route("/api/inference", methods=['GET'])
+def create_inference():
+    youtube_link = request.args.get('vID', "None")
+
+    # request to vision with snapshot
+
+    return "Get YoutubeLink {0}".format(youtube_link)
 
 
 if __name__ == '__main__':

@@ -62,6 +62,6 @@ def input_img(model_sim, url, fdir, image_name, cur):
     image_result = inference_list[int(image_name)]
 
     similar_itemid_list, category_list = similarity_result(model_sim, image_result, image_dir)
-    video_subject = cur.execute("select * from recommendation where url like {0}".format(url)).fetchall()[0][-1]
+    video_subject = cur.execute("select * from youreco where url like {0}".format(url)).fetchall()[0][-1]
 
     return similar_itemid_list, category_list, video_subject

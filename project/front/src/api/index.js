@@ -35,6 +35,14 @@ function GetByYoutubeLinkAndSec(videoID, sec) {
         })
 }
 
+function RequireVideoInference(videoID) {
+    axios.get(`/inference?vID=${videoID}`)
+        .then((response) => {
+            alert("영상 정보를 취득중입니다")
+        })
+}
+
+
 function GetImage(category, imgID) {
     return new Promise(function(resolve,reject) {
         axios.get(`/image?category=${category}&imgID=${imgID}`)
@@ -48,4 +56,4 @@ function GetImage(category, imgID) {
     })
 }
 
-export { GetResponse, GetByYoutubeLink, GetByYoutubeLinkAndSec, GetImage }
+export { GetResponse, GetByYoutubeLink, GetByYoutubeLinkAndSec, RequireVideoInference, GetImage }

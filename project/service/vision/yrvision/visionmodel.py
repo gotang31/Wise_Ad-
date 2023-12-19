@@ -59,15 +59,15 @@ class SimBck: # Similairty Backbone = Resnet50
 
         return preprocess
     
-    def crop_image(self, img, bbox):
+    def crop_image(self, img, box):
         '''
         img : PIL.Image.open
         boxes : box coordinate pandas DataFrame
         '''
-        left, top, right, bottom = bbox.astype('int32')
+        left, top, right, bottom = box
         height = bottom - top
         width = right - left
-        cropped_image = transforms.functional.crop(img, top, left, height, width)
+        cropped_image = transforms.functional.crop(img, int(top), int(left), int(height), int(width))
 
         return cropped_image
 
@@ -91,7 +91,7 @@ class YouRecoSIm(SimBck):
 
     def feature_extractor(self,image_dir, query_img, box): # Resnet-50으로부터 feature extraction/extra classification
         query_img = Image.open(f'{image_dir}/{query_img}.jpg').convert('RGB')
-        img_trans = self.crop_image(query_img)
+        img_trans = self.crop_image(query_img, box)
         img_trans = self.transform(img_trans)
         img_trans = img_trans.unsqueeze(0) # (1, 3, 224, 224)
         img_trans = img_trans.to(self.set_device())
@@ -100,17 +100,14 @@ class YouRecoSIm(SimBck):
         embed_feature = []
         hook = self.model.avgpool.register_forward_hook(
           lambda self, input, output: embed_feature.append(output.flatten().unsqueeze(0)))
-        res = self.model(img_trans, box)
+        res = self.model(img_trans)
         hook.remove()
 
-        # Classification
-        _, cls = torch.max(res.data, 1)
-
-        return embed_feature[0], cls
+        return embed_feature[0]
 
     def retrieval_similar(self, image_dir, query_img, box):
-        query_img_embedding, category = self.feature_extractor(image_dir, query_img, box)
-        category = int(category.item())
+        query_img_embedding = self.feature_extractor(image_dir, query_img, box)
+        query_img_embedding = query_img_embedding.detach().numpy() 
         
         n = 4
         while True:
@@ -121,7 +118,7 @@ class YouRecoSIm(SimBck):
                 # 유사도 랭크 순으로 중복 제거한 itemid list
                 indices = sorted(map(lambda x:int(x), set(indices.squeeze(0))), key = lambda x : list(indices.squeeze(0)).index(x))
                 
-                return indices, category  
+                return indices 
                 
             else:
                 n += 1
