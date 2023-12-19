@@ -1,5 +1,5 @@
 # main.py
-# input = {'detection_category':detection_category, 'userID':userID, 'video_subject':video_subject} 가정
+# input = {'detection_category':detection_category, 'userID':userID, 'video_subject':video_subject} 
 # output = [[tab2_cat, tab3_cat, tab4_cat], tab2_item, tab3_item, tab4_item]
 # tab2_item = item_recommender(userID, tab2_cat)
 # tab3_item = item_recommender(userID, tab3_cat)
