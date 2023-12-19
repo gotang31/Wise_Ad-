@@ -96,7 +96,7 @@ class YouRecoSIm(SimBck):
 
     def retrieval_similar(self, image_dir, query_img, box):
         query_img_embedding, category = self.feature_extractor(image_dir, query_img, box)
-        category = category.item()
+        category = int(category.item())
         
         n = 4
         while True:
@@ -105,7 +105,7 @@ class YouRecoSIm(SimBck):
             
             if len(set(indices.squeeze(0))) == 4:
                 # 유사도 랭크 순으로 중복 제거한 itemid list
-                indices = sorted(set(indices.squeeze(0)), key = lambda x : list(indices.squeeze(0)).index(x) )
+                indices = sorted(map(lambda x:int(x), set(indices.squeeze(0))), key = lambda x : list(indices.squeeze(0)).index(x))
                 
                 return indices, category  
                 
