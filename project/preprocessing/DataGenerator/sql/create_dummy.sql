@@ -1,0 +1,3 @@
+INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES('D8mq5L9R0GM',0,300, 2, array[10408, 10332, 10459, 10308], 1);
+INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES('D8mq5L9R0GM',300,600, 7, array[30192, 30200, 30206, 30293], 1);
+INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES('D8mq5L9R0GM',600,918, 3, array[17757, 17779, 17765, 17785],1);
