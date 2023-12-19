@@ -35,8 +35,9 @@ def similarity_result(model_sim, result_list, image_dir):
     similar_itemid_list = list() # 유사 이미지 상품 itemid
     category_list = list() # 각 object의 classification 결과의 category
     for obj in result_list:
-        indices, category = model_sim.retrieval_similar(image_dir, obj[0], obj[3])
+        indices = model_sim.retrieval_similar(image_dir, obj[0], obj[3])
         similar_itemid_list.append(indices)
+        category = obj[1].item()
         category_list.append(category)
     
     return similar_itemid_list, category_list
@@ -46,6 +47,7 @@ def subject_extraction(inference_list):
     영상 주제 (Dog or Cat)
     '''
     cat_dog_list = list(filter(lambda x : x[1].item() in [0, 1], inference_list))
+    cat_dog_list = list(map(lambda x : x[1].item(), cat_dog_list))
     
     subject = ''
     dog = cat_dog_list.count(0)
@@ -71,7 +73,7 @@ def key_extraction(inference_list, video_time):
 
     # Detection category 개수와 추천 최소 시간을 고려한 최적의 구간 개수 및 길이 설정
     reco_min_interval_time = 240   # 초 단위
-    category_num_detect = len(set(map(lambda x : x[1], inference_list)))  # # of detected category
+    category_num_detect = len(set(map(lambda x : x[1].item(), inference_list)))  # # of detected category
     if video_time >= reco_min_interval_time:
 
         interval_time = video_time / category_num_detect
@@ -113,9 +115,9 @@ def insert_result_from_inference(cursor, url, split_time_list, similar_itemid_li
         category = category_list[i]
         sim_itemlist = similar_itemid_list[i]
         cursor.execute(
-                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},{4},{5}');".format(
+                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},array{4},{5});".format(
                     url, start_time, end_time, category, sim_itemlist, video_subject))
         f.write(
-                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},{4},{5}');\n".format(
+                "INSERT INTO inferenceinfo(url, start_time, end_time, category, sim_itemlist, video_subject) VALUES(\'{0}\',{1},{2},{3},array{4},{5});\n".format(
                     url, start_time, end_time, category, sim_itemlist, video_subject))
     f.close()

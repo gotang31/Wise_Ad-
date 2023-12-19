@@ -9,7 +9,7 @@ app = Flask(__name__)
 # 모델 미리 선언하여 inference 계속 진행될 수 있도록
 
 model_detect = Detr()
-ckpt_path = 'epoch=29-step=95610.ckpt'
+ckpt_path = 'epoch=26-step=157437.ckpt'
 ckpt = torch.load(ckpt_path, map_location = torch.device('cpu')) # GPU 사용 할 때에는 map_location 삭제 
 model_detect.load_state_dict(ckpt['state_dict'])
 model_detect.eval()
