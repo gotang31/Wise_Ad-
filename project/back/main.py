@@ -1,8 +1,11 @@
+
 from flask import Flask, request, send_file
 import psycopg2 as pg
 from requests import get, post
+import asyncio
 import os
 
+from lib.send_inferece import send_inference_request
 from lib.fill_recommendation import create_new_section_list
 
 
@@ -54,35 +57,18 @@ def create_inference():
     youtube_link = request.args.get('vID', "None")
 
     # request to vision with snapshot
+    print(youtube_link)
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(send_inference_request(youtube_link))
+    loop.close()
+
+    print("Successfully transfered youtube link")
 
     return "Get YoutubeLink {0}".format(youtube_link)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5001)))
-
-
-# url = 'frontend에서 받는 url'
-# image_name = 'frontend에서 받는 image_name'
-#
-# similar_itemid_list = ''
-# category_list = ''
-# split_time_list = ''
-#
-# # json file response
-# if url: #
-#     resp_vision = post('http://172.29.50.29:5000/infer', url)
-#     similar_itemid_list = resp_vision['similar_itemid_list']
-#     category_list = resp_vision['category_list']
-#     split_time_list = resp_vision['split_time_list']
-#     video_subject = resp_vision['video_subject']
-#
-#     resp_reco = post('http://172.29.50.29:5000/infer', json = {'category_list' : category_list, 'video_subject': video_subject})
-#
-# else:
-#     resp_vision = post('http://172.29.50.29:5000/infer', image_name)
-#     similar_itemid_list = resp_vision['similar_itemid_list']
-#     category_list = resp_vision['category_list']
-#
-#     resp_reco = post('http://172.29.50.29:5000/infer', json = {'category_list' : category_list, })
 

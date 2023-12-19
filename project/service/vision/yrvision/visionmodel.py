@@ -91,7 +91,7 @@ class YouRecoSIm(SimBck):
 
     def feature_extractor(self,image_dir, query_img, box): # Resnet-50으로부터 feature extraction/extra classification
         query_img = Image.open(f'{image_dir}/{query_img}.jpg').convert('RGB')
-        img_trans = self.crop_image(query_img)
+        img_trans = self.crop_image(query_img, box)
         img_trans = self.transform(img_trans)
         img_trans = img_trans.unsqueeze(0) # (1, 3, 224, 224)
         img_trans = img_trans.to(self.set_device())

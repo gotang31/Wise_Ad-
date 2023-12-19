@@ -4,10 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
 requests = "*"
 psycopg2 = "*"
 aiohttp = "*"
+flask = {extras = ["async"], version = "*"}
+asgiref = "*"
 
 [dev-packages]
 
