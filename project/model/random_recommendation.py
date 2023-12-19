@@ -7,15 +7,15 @@ gds = config.get_gds()
 
 def random_recommender(tab2_cat, tab3_cat, video_subject):
     random_category = gds.run_cypher('''
-        MATCH (c:Category)-[:CATEGORY_BELONGS_TO]->(s:Subcategory)-[:SUBCATEGORY_BELONGS_TO]->(ss:Supercategory)
+        MATCH (c:Category)-[:CATEGORY_BELONGS_TO]->(s:Supercategory)-[:SUPERCATEGORY_BELONGS_TO]->(m:Metacategory)
         WHERE NOT c.categoryID = $categoryID1
         AND NOT c.categoryID = $categoryID2
-        AND ss.supercategoryID = $supercategoryID
+        AND m.metacategoryID = $metacategoryID
         WITH c.categoryID AS categoryID
         RETURN categoryID
         ORDER BY rand()
         LIMIT 1
-    ''', params = {'categoryID1':tab2_cat, 'categoryID2':tab3_cat, 'supercategoryID':video_subject})
+    ''', params = {'categoryID1':tab2_cat, 'categoryID2':tab3_cat, 'metacategoryID':video_subject})
 
     tab4_cat = int(random_category.iat[0,0])
 

@@ -16,16 +16,8 @@ from random_recommendation import random_recommender
 
 
 def main(input_data):
-    #일단은 detection.json을 읽는다고 가정합니다.
-    #내용은 detection_category=2, userID=279, video_subject=1
-    #with open('./detection.json', 'r') as f:
-    #    detection_result = json.load(f)
-    #detection_category = detection_result['detection_category']
 
     #추천을 위한 변수들을 준비합니다.
-    #userID = detection_result['userID']
-    #video_subject = detection_result['video_subject']
-    #key_category = convert_category(detection_category, video_subject)
     detection_category = int(input_data["detection_category"])
     userID = int(input_data["userID"])
     video_subject = int(input_data["video_subject"])
