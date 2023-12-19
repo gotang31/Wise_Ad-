@@ -6,6 +6,7 @@ from PIL import Image
 import pytorch_lightning as pl
 from transformers import DetrForObjectDetection
 
+
 class Detr(pl.LightningModule):
     def __init__(self):
         super().__init__()
@@ -48,7 +49,7 @@ class SimBck: # Similairty Backbone = Resnet50
 
         except Exception:
             preprocess = transforms.Compose(
-              [
+              [   transforms.Resize((224, 224)),
                   transforms.ToTensor(),
                   transforms.Normalize(
                       mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
@@ -57,6 +58,18 @@ class SimBck: # Similairty Backbone = Resnet50
             )
 
         return preprocess
+    
+    def crop_image(self, img, bbox):
+        '''
+        img : PIL.Image.open
+        boxes : box coordinate pandas DataFrame
+        '''
+        left, top, right, bottom = bbox.astype('int32')
+        height = bottom - top
+        width = right - left
+        cropped_image = transforms.functional.crop(img, top, left, height, width)
+
+        return cropped_image
 
     def set_device(self):
         if torch.cuda.is_available():
@@ -78,7 +91,8 @@ class YouRecoSIm(SimBck):
 
     def feature_extractor(self,image_dir, query_img, box): # Resnet-50으로부터 feature extraction/extra classification
         query_img = Image.open(f'{image_dir}/{query_img}.jpg').convert('RGB')
-        img_trans = self.transform(query_img)
+        img_trans = self.crop_image(query_img)
+        img_trans = self.transform(img_trans)
         img_trans = img_trans.unsqueeze(0) # (1, 3, 224, 224)
         img_trans = img_trans.to(self.set_device())
 
