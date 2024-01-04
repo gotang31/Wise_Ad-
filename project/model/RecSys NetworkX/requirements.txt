@@ -1,0 +1,4 @@
+Flask==3.0.0
+networkx==3.2.1
+numpy==1.24.1
+pandas==2.1.4
